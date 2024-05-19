@@ -4,8 +4,10 @@ import (
 	"bytes"
 	"fmt"
 	"hash/fnv"
-	"monkey/ast"
 	"strings"
+
+	"monkey/ast"
+	"monkey/code"
 )
 
 type BuiltinFunction func(args ...Object) Object
@@ -27,6 +29,8 @@ const (
 
 	ARRAY_OBJ = "ARRAY"
 	HASH_OBJ  = "HASH"
+
+	COMPILED_FUNCTION_OBJ = "COMPILED_FUNCTION_OBJ"
 )
 
 type HashKey struct {
@@ -179,4 +183,17 @@ func (h *Hash) Inspect() string {
 	out.WriteString("}")
 
 	return out.String()
+}
+
+type CompiledFunction struct {
+	Instructions  code.Instructions
+	NumLocals     int
+	NumParameters int
+}
+
+func (cf *CompiledFunction) Type() ObjectType {
+	return COMPILED_FUNCTION_OBJ
+}
+func (cf *CompiledFunction) Inspect() string {
+	return fmt.Sprintf("CompiledFunction[%p]", cf)
 }
