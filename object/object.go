@@ -31,6 +31,7 @@ const (
 	HASH_OBJ  = "HASH"
 
 	COMPILED_FUNCTION_OBJ = "COMPILED_FUNCTION_OBJ"
+	CLOSURE_OBJ           = "CLOSURE"
 )
 
 type HashKey struct {
@@ -196,4 +197,14 @@ func (cf *CompiledFunction) Type() ObjectType {
 }
 func (cf *CompiledFunction) Inspect() string {
 	return fmt.Sprintf("CompiledFunction[%p]", cf)
+}
+
+type Closure struct {
+	Fn   *CompiledFunction
+	Free []Object
+}
+
+func (c *Closure) Type() ObjectType { return CLOSURE_OBJ }
+func (c *Closure) Inspect() string {
+	return fmt.Sprintf("Closure[%p]", c)
 }
